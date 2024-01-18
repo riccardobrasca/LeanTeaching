@@ -149,7 +149,7 @@ example : F (n + 1) = (F n - 1) ^ 2 + 1 := by
   dsimp [F]
   simp only [add_tsub_cancel_right, add_left_inj]
   rw [pow_add, pow_one, pow_mul]
-
+  done
 
 /- Revenons maintenant mot à mot sur les lignes précédentes.
 Le mot clé `example` signifie que nous allons démontrer un théorème “sans nom”. Plus tard, nous donnerons des noms aux théorèmes que nous démontrerons — cela nous permettra de les réutiliser.
@@ -164,6 +164,7 @@ Un des buts de ce cours est de vous apprendre à rédiger des démonstrations de
 /- Lean peut bien sûr certifier que 2 et 2 font 4 ? -/
 example : 2 + 2 = 4 := by
   rfl
+  done
 
 /- Nous retrouvons la structure précédente. D'abord le mot clé `example`, suivi du symbole `:`, l'assertion `2 + 2 = 4`, le symbole `:=`, et la démonstration après `by`, ici formée d'une seule instruction `rfl` qui signifie : “constate l'égalité.” De fait, Lean conclut immédiatement `No goals` !
 -/
@@ -172,6 +173,7 @@ example : 2 + 2 = 4 := by
 
 example : (F 5) % 641 = 0 := by
   rfl
+  done
 
 /-
 Lean a terminé la démonstration avec `rfl`, mais Lean dispose de tactiques de calcul plus efficaces que l'on peut activer avec la tactique `norm_num`.
@@ -181,6 +183,7 @@ example : (F 5) % 641 = 0 := by
   -- Remplace `F 5` par sa définition.
   dsimp only [F]
   norm_num
+  done
 
 /-
 Lean est même capable de vérifier que des entiers sont, ou pas, des nombres premiers. Cette propriété est codée par le prédicat `Nat.Prime`. Lean sait décider si elle est vraie ou fausse en calculant la décomposition en facteurs premiers.
@@ -190,11 +193,13 @@ Lean est même capable de vérifier que des entiers sont, ou pas, des nombres pr
 example : Nat.Prime (F 4) := by
   dsimp only [F]
   norm_num
+  done
 
 -- … mais pas `F 5` (le symbole `¬` signifie la négation) :
 example : ¬ Nat.Prime (F 5) := by
   dsimp only [F]
   norm_num
+  done
 
 /- Pouvez-vous vérifier que les nombres de Fermat suivants ne sont pas premiers en remplaçant 5 par un entier un peu plus grand ?
 Probablement pas beaucoup…
@@ -231,12 +236,11 @@ example : F (n + 1) = (F n - 1) ^ 2 + 1  := by
   -- `2 ^1 = 2`
   rw [pow_mul]
   -- On applique la relation `a ^ (b * 2) = (a ^ b) ^ 2
+  done
 
 /-
-
 À part les lignes de commentaires (`-- … `)  et la seconde  (`dsimp …`),
 toutes commencent par l'instruction `rw` qui ordonne à Lean de récrire l'expression à l'aide de la règle donnée (`add_left_inj`, `pow_add`, etc.).
-
 -/
 
 
@@ -276,40 +280,49 @@ example : (n + 1) ^ 2 = n ^ 2 + 2 * n + 1 := by
   -- simplifier les 1
   rw [two_mul]
   -- `2 * n = n + n`
+  done
 
 /- C'était fastidieux, d'autant plus que Lean dispose d'une tactique toute faite pour démontrer tout seul ce genre d'égalités : -/
 example : (n + 1) ^ 2 = n ^ 2 + 2 * n + 1 := by
   ring
   -- La tactique `ring` a convoqué automatiquement les règles de calcul valables
+  done
 
 /- Quelques exemples pour vous exercer -/
 
 /- Une seule commande est nécessaire -/
 example : n + n = 2 * n := by
   sorry
+  done
 
 example (m : ℕ) : m + (n + 1) = m + (n + 1) := by
   sorry
+  done
 
 example (m : ℕ) : 2 * (m + n) = 2 * m + 2 *n := by
   sorry
+  done
 
 /- Deux commandes -/
 example : n + (n + 1) = 2 * n + 1 := by
   sorry
+  done
 
 example (m : ℕ) : 2 * (n + 1) = 2 * n + 2 := by
   sorry
+  done
 
 example (n : ℕ) : n * (n + 1) + 2 * (n + 1) = (n + 1) * (n + 2) := by
   sorry
+  done
 
 /- Trois commandes -/
 example (m : ℕ) : (m + 1) * m = m ^ 2 + m := by
   sorry
+  done
 
 /- Quatre commandes -/
-
 -- `add_comm` exprime la commutativité
 example (m : ℕ) : m + (n + 1) = n + (m + 1) := by
   sorry
+  done
