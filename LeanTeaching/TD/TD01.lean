@@ -6,7 +6,7 @@ open Nat Real
 
 /-
 
-# Premiers pas en Lean
+# TD 1 : Premiers pas en Lean
 
 Ce texte est une suite de commandes prévues pour être exécutées par
 le programme Lean, mais nous utiliserons la possibilité d'ajouter
@@ -61,7 +61,7 @@ de nombres réels ou complexes.
 -- `2/3` ne renvoie pas explicitement d'erreur, mais il semble y avoir un souci
 -- car vous n'auriez pas prévu que `2/3` puisse être un entier…
 #check 2/3
-
+#eval 2/3
 -- Avec ces nombres, Lean est capable de faire des calculs simples,
 -- grâce à la fonction #eval :
 #eval 2 + 2
@@ -83,11 +83,12 @@ de nombres réels ou complexes.
   que Lean ne sait (apparemment pas) afficher. -/
 
 -- Essayez d'enlever les `--` de commentaires de la ligne suivante pour voir:
--- #eval (1+complex.I) ^ 2
+-- #eval (1+Complex.I) ^ 2
 
 -- Ce calcul nous explique ce qu'est `2/3`  :
 #eval 2 / 3
-#eval 2 - 3
+#eval 17 - 5
+#eval (2 - 3 : ℤ)
 
 /- Dans Lean, les fonctions de soustraction et de division ont été définies
   de sorte à « rester » du même type en étant tout le temps définies.
@@ -99,7 +100,7 @@ de nombres réels ou complexes.
 -- En revanche, le comportement redevient celui attendu si l'on explique à Lean
 -- qu'il s'agit d'entiers relatifs :
 #eval (3 : ℤ) - 4
-
+#eval (3 : ℕ) - (4 : ℤ)
 -- ou de nombres rationnels :
 #eval (3 : ℚ) / 5
 #eval -3 / (9 : ℚ)
@@ -195,7 +196,7 @@ consacrée aux nombres de Fermat : https://fr.wikipedia.org/wiki/Nombre_de_Ferma
 
 -- Une première relation
 example : F (n + 1) = (F n - 1) ^ 2 + 1 := by
-  dsimp [F]
+  dsimp only [F]
   simp only [add_tsub_cancel_right, add_left_inj]
   rw [pow_add, pow_one, pow_mul]
   done
@@ -226,6 +227,10 @@ example : F (n + 1) = (F n - 1) ^ 2 + 1 := by
 example : 2 + 2 = 4 := by
   rfl
   done
+
+/- example : F 15 + F 6 = F 6 + F 15 := by
+  rfl
+  done -/
 
 /- Nous retrouvons la structure précédente.
   D'abord le mot clé `example`, suivi du symbole `:`,
@@ -259,6 +264,13 @@ example : (F 5) % 641 = 0 := by
   norm_num
   done
 
+
+example : F 12 + F 6 = F 6 + F 12 := by
+  dsimp only [F]
+  norm_num
+  done
+
+
 /- Lean est même capable de vérifier que des entiers sont, ou pas,
   des nombres premiers. Cette propriété est codée par le prédicat `Nat.Prime`.
   Lean sait décider si elle est vraie ou fausse en calculant la décomposition
@@ -272,6 +284,11 @@ example : Nat.Prime (F 4) := by
 
 -- … mais pas `F 5` (le symbole `¬` signifie la négation) :
 example : ¬ Nat.Prime (F 5) := by
+  dsimp only [F]
+  norm_num
+  done
+
+example : ¬ Nat.Prime (F 6) := by
   dsimp only [F]
   norm_num
   done
