@@ -388,381 +388,424 @@ lemma zero_add : 0 + a = a := by
 
 /-- Associativité de l'addition -/
 lemma add_assoc : a + b + c = a + (b + c) := by
-  sorry
+  induction c with
+  | zero =>
+    sorry
+  | succ c hrec =>
+    sorry
   done
 
 /- D'autres propriétés de l'addition.  -/
 
-lemma succ_add : succ a + b = succ (a + b) := --Remarquez que `succ a + b` signifie `(succ a) + b`.
-begin
+lemma succ_add : succ a + b = succ (a + b) := by
+  -- Remarquez que `succ a + b` signifie `(succ a) + b`.
   sorry
-end
+  done
 
-lemma add_comm : a + b = b + a :=
-begin
+-- Pour prouver la commutativité de l'addition, utilisez `succ_add`
+/-- Commutativité de l'addition -/
+lemma add_comm : a + b = b + a := by
   sorry
-end
+  done
 
-/-
-On va définir le nombre `1` comme `succ 0`, donc le lemme `one_eq_succ_zero` ci-dessous est vrai
-par définition. La ligne suivante active la notation `1 : N`.
--/
+/- On va définir le nombre `1` comme `succ 0`,
+  donc le lemme `one_eq_succ_zero` ci-dessous est vrai par définition.
+  La ligne suivante active la notation `1 : N`.  -/
 
-instance : has_one N := ⟨succ 0⟩
+instance : One N := ⟨succ 0⟩
 
 #check (1 : N)
 
-/-
-En ayant défini `1`, Lean maintenant comprend tous les chiffres.
--/
+lemma one_eq_succ_zero : (1 : N) = succ 0 := by
+  rfl
+  done
 
-#check (53534 : N)
+/- Même s'il n'est pas difficile,
+  le lemme suivant n'est pas vrai par définition !  -/
 
-lemma one_eq_succ_zero : (1 : N) = succ 0 :=
-begin
-  refl,
-end
-
-lemma two_eq_succ_one : (2 : N) = succ 1 :=
-begin
-  refl,
-end
-
-/-
-Le lemme suivant, même si pas difficile, n'est pas vrai par définition.
--/
-
-lemma succ_eq_add_one : succ a = a + 1 :=
-begin
+lemma succ_eq_add_one : succ a = a + 1 := by
   sorry
-end
+  done
 
-/-
-Pour le lemme suivant on a besoin d'une utilisation un peu plus fine de la tactique `rw`.
--/
+/- Pour ce lemme, on a besoin d'une utilisation un peu plus fine
+  de la tactique `rw` : Lean peut appliquer l'associativité
+  à plusieurs endroits de l'énoncé, et pour qu'il le fasse à celui qu'on
+  veut, on va préciser les arguments de `add_assoc`. -/
 
-lemma add_right_comm : a + b + c = a + c + b :=
-begin
-  rw [add_assoc a b c], --`rw [add_assoc]` marche aussi
-  rw [add_comm b c], --ici on doit préciser `b` et `c`
-  rw [← add_assoc], -- `← ` dit à `rw` de récrire le lemme de droite à gauche
-end
+lemma add_right_comm : a + b + c = a + c + b := by
+  rw [add_assoc a b c] -- `rw [add_assoc]` marche aussi
+  rw [add_comm b c]    -- ici on doit préciser `b` et `c`
+  rw [← add_assoc]     -- `← ` dit à `rw` de récrire le lemme de droite à gauche
+  done
 
 end addition
 
 section multiplication
 
-/-
-Comme on a défini et étudié l'addition, on peut considérer la multiplication. Avant de lire la suite,
-essayez de donner vous-mêmes une définition de la multiplication, en suivant ce qu'on a fait pour
-l'addition.
--/
+/- On a défini et étudié l'addition dans `N` grâce au principe de récurrence,
+  et on va faire de même pour la multiplication.
+  Avant de lire la suite, essayez de donner par vous-même une définition
+  de la multiplication de deux entiers, en suivant ce qu'on a fait pour
+  l'addition.  -/
 
 def mul (n : N) : N → N
-| 0 := 0
-| (succ m) := (mul m) + n
+| 0 => 0
+| (succ m) => (mul n m) + n
 
-instance : has_mul N := ⟨mul⟩ --Active la notation `a * b`
+instance : Mul N := ⟨mul⟩ --Active la notation `a * b`
 
-/-
-Les trois variables déclarées avant ne sont plus accessibles, car on est dans une autre section.
--/
+/- Les trois variables déclarées avant ne sont plus accessibles,
+  car on est dans une autre section.  -/
 
-variables (a b c : N)
+variable (a b c : N)
 
-lemma mul_zero : a * 0 = 0 :=
-begin
-  refl,
-end
+lemma mul_zero : a * 0 = 0 := by
+  rfl
+  done
 
-lemma mul_succ : a * (succ b) = a * b + a :=
-begin
-  refl,
-end
+lemma mul_succ : a * (succ b) = a * b + a := by
+  rfl
+  done
 
-lemma zero_mul : 0 * a = 0 :=
-begin
+lemma zero_mul : 0 * a = 0 := by
   sorry
-end
+  done
 
-lemma mul_one : a * 1 = a :=
-begin
+lemma mul_one : a * 1 = a := by
   sorry
-end
+  done
 
-lemma one_mul : 1 * a = a :=
-begin
+lemma one_mul : 1 * a = a := by
   sorry
-end
+  done
 
-lemma mul_add : a * (b + c) = a * b + a * c :=
-begin
+lemma mul_add : a * (b + c) = a * b + a * c := by
   sorry
-end
+  done
 
-lemma mul_assoc : a * b * c = a * (b * c) :=
-begin
+lemma mul_assoc : a * b * c = a * (b * c) := by
   sorry
-end
+  done
 
-lemma succ_mul : succ a * b = a * b + b :=
-begin
+lemma succ_mul : succ a * b = a * b + b := by
   sorry
-end
+  done
 
-lemma add_mul : (a + b) * c = a * c + b * c :=
-begin
+lemma add_mul : (a + b) * c = a * c + b * c := by
   sorry
-end
+  done
 
-lemma mul_comm : a * b = b * a :=
-begin
+lemma mul_comm : a * b = b * a := by
   sorry
-end
+  done
 
 end multiplication
 
 section power
 
-/-
-On défini les puissances.
--/
+/- On définit maintenant les puissances.  -/
 
 def pow (n : N) : N → N
-| 0 := 1
-| (succ m) := (pow m) * n
+| 0 => 1
+| (succ m) => (pow n m) * n
 
-instance : has_pow N N := ⟨pow⟩ --Active la notation `a ^ b`
+instance : Pow N N := ⟨pow⟩ -- Active la notation `a ^ b`
 
-variables (a b c : N)
+variable (a b c : N)
 
-lemma pow_zero : a ^ (0 : N) = 1 :=
-begin
-  refl,
-end
+lemma pow_zero : a ^ (0 : N) = 1 := by
+  rfl
+  done
 
-lemma pow_succ : a ^ (succ b) = a ^ b * a :=
-begin
-  refl,
-end
+lemma pow_succ : a ^ (succ b) = a ^ b * a := by
+  rfl
+  done
 
 end power
 
-section ignorez_moi
+section CommSemiring
 
-/-
-Cette section sert à activer la tactique `ring`, que fait des calculs simples dans `N`. Vous
-pouvez l'ignorez, mais remarquez qu'on utilise tous les résultats précédents.
--/
+/-   On fait observer à Lean que `N` est un « semi-anneau commutatif. »
 
-instance : comm_semiring N :=
-{ add_assoc := add_assoc, zero_add := zero_add, add_zero := add_zero, add_comm := add_comm,
-  left_distrib := mul_add, right_distrib := add_mul, zero_mul := zero_mul, mul_zero := mul_zero,
-  mul_assoc := mul_assoc, one_mul := one_mul, mul_one := mul_one, mul_comm := mul_comm,
-  ..N.has_zero, ..N.has_one, ..N.has_add, ..N.has_mul }
+  Le cours d'algèbre définit *anneau* comme un ensemble muni
+  de deux opérations associatives `+` et `*`,
+  ayant un élément neutre (`0` pour `+` et `1` pour `*`),
+  avec une propriété de distributivité de la multiplication sur l'addition,
+  l'addition doit aussi être commutative.
+  Ces propriétés sont celles d'un *semi-anneau*, mais dans un *anneau*,
+  il faut en outre que tout élément ait un opposé pour `+`.
+  Un *anneau* ou un *semi-anneau* est commutatif lorsque la multiplication
+  est commutative.
 
-end ignorez_moi
+  Remarquez que ces propriétés ont toutes été vérifiées avant ! -/
+
+/-- `N` est un semi-anneau commutatif (*commutative semiring*) -/
+instance : CommSemiring N where
+  add_assoc := add_assoc
+  zero_add := zero_add
+  add_zero := add_zero
+  add_comm := add_comm
+  left_distrib := mul_add
+  right_distrib := add_mul
+  zero_mul := zero_mul
+  mul_zero := mul_zero
+  mul_assoc := mul_assoc
+  one_mul := one_mul
+  mul_one := mul_one
+  mul_comm := mul_comm
+
+/- Une fois que Lean sait que `N` est un semi-anneau, il sait
+  y interpréter tous les nombres entiers habituels -/
+#check (1789 : N)
+
+lemma two_eq_succ_one : (2 : N) = succ 1 := by
+  rfl
+  done
+
+/- Un autre intérêt d'apprendre à Lean que `N` est un semi-anneau
+  est qu'il sait maintenant vérifier certaines relations automatiquement
+  dans `N` si elles peuvent se démontrer avec les propriétés d'un semi-anneau
+  commutatif.  -/
+
+example (a b : N) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by
+  ring
+
+end CommSemiring
 
 /-
 Voici un résultat pas complètement évident.
 -/
 
-example (u : N → N) (h0 : u 0 = 1) (hn : ∀ n, u (succ n) = u (n) + (2 : N) ^ n) :
-  ∀ n, u n = (2 : N) ^ n :=
-begin
-  intro n,
-  induction n with m hrec,
-  { rw [h0],
-    ring, },
-  { rw [hn m, hrec, pow_succ],
-  /- On veut remplacer `2` par `1.succ`, pour utiliser `mul_succ`. Par contre, `2` apparaît
-      plusieurs fois, la tactique `nth_rewrite` précise où effectuer la réécriture. -/
-    nth_rewrite 3 [two_eq_succ_one],
-    rw [mul_succ, mul_one], }
-end
+example (u : N → N)
+    (h0 : u 0 = 1)
+    (hn : ∀ n, u (succ n) = u (n) + (2 : N) ^ n)
+    (n : N) :
+  u n = (2 : N) ^ n := by
+  induction n with
+  | zero =>
+    -- Lean ne reconnaît pas `u 0`
+    change u 0 = 2 ^ 0
+    rw [h0]
+    rfl
+  | succ m hrec =>
+    rw [hn m, hrec, pow_succ]
+  /- On veut remplacer `2` par `1.succ`, pour utiliser `mul_succ`.
+    Par contre, `2` apparaît plusieurs fois, la tactique `nth_rewrite` précise
+    où effectuer la réécriture, ici à la quatrième occurrence. -/
+    nth_rewrite 4 [two_eq_succ_one]
+    rw [mul_succ, mul_one]
+  done
 
 end N
 
-/-
-Redémontrer toutes les propriétés de `N` n'est pas raisonnable. Pour cette raison on abandon notre
-version des entiers naturels et on va utiliser `ℕ`, la versionne "officielle" de Lean. Ça nous
-donne accès à énormément de résultats déjà démontrés et nous permet de faire de mathématiques non
-triviales. Voici deux exemples de votre sujet d'examen de décembre dernier pour le cours MM1.
+/- Redémontrer toutes les propriétés de `N` n'est pas raisonnable.
+  Pour cette raison on abandonne ici notre version des entiers naturels,
+  et on va maintenant utiliser `ℕ`, la version « officielle » de Lean.
+  Ça nous donne accès à énormément de résultats déjà démontrés et nous permet
+  de faire tout de suite de mathématiques non triviales.
 
-Malheureusement, le symbole "ligne verticale" `|` est déjà réservé aux definitions inductive, pour
-la divisibilité on utilise `∣`, qui peut paraître identique à l'autre, mais il ne l'est pas, on
-l'obtient en tapant `\|`.
+  Voici deux exemples d'un sujet d'examen pour le cours MM1.
+
+  Malheureusement, le symbole « ligne verticale » `|` qui sert pour la
+  divisibilité est déjà réservé aux definitions inductive.
+  On va donc utiliser un symbole `∣` qui peut paraître identique mais
+  ne l'est pas : on l'obtient en tapant `\|` (ou `\mid`).
+  Vous pouvez aussi passer la souris sur le symbole, VSCode vous dira alors
+  comment l'entrer au clavier. -/
+
+example : ∃ (n : ℕ), n ≥ 2 ∧ n ∣ (n - 1)! := by
+  /- On doit montrer l'existence d'un nombre qui satisfait certaines
+    propriétés. On dit à Lean de considérer `6`. -/
+  use 6
+  /- Il reste à vérifier que `6` marche.
+    L'objectif est la conjonction (« et ») de deux parties,
+    la tactique `constructor` les sépare en deux buts. -/
+  constructor
+  /- On a deux objectifs.
+    Pour la première, une vérification directe suffit,
+    grâce à la tactique `norm_num`. -/
+  norm_num
+  -- Pour la seconde, `norm_num` va juste simplifier l'écriture
+  norm_num
+  /- La définition de la divisibilité `6 ∣ 5!` est qu'il existe `k : ℕ`
+    tel que `5! = 6 * k`. On propose `k = 20`. -/
+  use 20
+  -- Il reste à vérifier que c'est bien le cas ; Lean le constate par `rfl`.
+  rfl
+  done
+
+/- Pour le deuxième exemple, on démontre qu'il n'existe pas d'entier naturel
+  `n` tel que `n + 1` est premier et `n + 1` divise `n!`.
+  Le symbole pour écrire la négation d'une proposition est `¬`
+  et le fait que un entier `p` est premier s'écrit `p.Prime`.
+
+  Pour cet exemple on va utiliser un résultat de Mathlib,
+  le fait qu'un nombre premier `p` divise `n!` si et seulement si `p ≤ n`.
+  Ce résultat est appelé `Nat.Prime.dvd_factorial`.  -/
+
+#check Nat.Prime.dvd_factorial
+
+/- En pratique, si `hp` est l’hypothèse que qu'un entier naturel donné est
+  premier, alors `Nat.Prime.dvd_factorial hp` est la double implication
+    `p ∣ n! ↔ p ≤ n`.
+  On peut écrire `(Nat.Prime.dvd_factorial hp).1`
+  et `(Nat.Prime.dvd_factorial hp).2` pour utiliser les deux implications.  -/
+
+example : ¬(∃ (n : ℕ), (n + 1).Prime ∧ (n + 1) ∣ n ! ) := by
+  /- Supposons que l'énoncé soit faux. On fait donc l'hypothèse, appelé `h`, qui un tel `n` existe, et on doit arriver à une contradiction,
+    c'est-à-dire à démontrer `False`.
+    Remarquez la tactique `by_contra` (« par contradiction »)`. -/
+  by_contra h
+  /- `h` est l'hypothèse qu'il existe `n` tel que une certaine propriété.
+    La tactique `obtain` choisit un tel `n`.
+    Ici la propriété est formée des deux parties ;
+    on appelle `hprime` le fait que `n + 1` est premier
+    et `hdvd` le fait que `n + 1` divise `n!`.  -/
+  obtain ⟨n, hprime, hdvd⟩ := h
+  /- On introduit une affirmation intermédiaire, le fait que `n + 1 ≤ n`,
+    ce qui suit à cause de `Nat.Prime.dvd_factorial` et c'est une
+    contradiction).
+    Remarquez les tactiques `have` pour faire une affirmation intermédiaire
+    et `apply` pour "appliquer" une implication. -/
+  have hn : n + 1 ≤ n := by
+    apply (Nat.Prime.dvd_factorial hprime).1
+    exact hdvd
+  /- Il y a maintenant une inégalité qui est « évidemment » fausse, mais
+    bien sûr, il faut assi en faire la démonstration !
+    Heureusement, la tactique `linarith` nous permet de conclure. -/
+  linarith
+  done
+
+/- Voici des exemples de la feuille de TD d'arithmétique.
 -/
 
-example : ∃ (n : ℕ), n ≥ 2 ∧ n ∣ (n - 1)! :=
-begin
-  /- On doit montrer l'existence d'un nombre qui satisfait certaines propriétés. On dit à Lean
-    de considérer `6`. -/
-  use 6,
-  /- Il reste à vérifier que `6` marche. L'objectif est donc composé de deux parties, la tactique
-    `split` les sépare. -/
-  split,
-  /- On a deux objectifs. Pour les deux une vérification directe suffit, la tactique `norm_num`
-    nous permet de conclure. -/
-  { norm_num, },
-  { norm_num, }
-end
+example (n : ℕ) : Nat.gcd 13 (7 + 13 * n) = 1 := by
+  have h : Nat.gcd 13 (7 + 13 * n) = Nat.gcd 13 7 := by
+    exact gcd_add_mul_left_right 13 7 n
+    /- Le théorème `gcd_add_mul_left_right` peut paraître impossible à trouver,
+      mais remarquez la logique de son nom.
+      On va voir ci-dessous des outils pour nous aider à deviner les noms des
+      résultats qui existent déjà dans Mathlib. -/
+  rw [h]
+  norm_num -- `norm_num` suffit même sans la ligne précédente
+  done
 
-/-
-Pour le deuxième exemple on démontre qu'il n'existe pas un entier naturel `n` tel que `n + 1` est
-premier et `n + 1` divise `n!`. Le symbole pour écrire la négation d'une proposition est `¬` et le
-fait que un entier `p` est premier s'écrit `p.prime`.
-
-Pour cet exemple on va utiliser un résultat de mathlib, le fait qu'un nombre premier `p` divise
-`n!` si et seulement si `p ≤ n`. Ce résultat est appelé `nat.prime.dvd_factorial`.
--/
-
-#check nat.prime.dvd_factorial
-
-/-
-En pratique, si `hp` est l’hypothèse que qu'un entier naturel donné est premier, alors
-`nat.prime.dvd_factorial hp` est la double implication `p ∣ n! ↔ p ≤ n`. On peut écrire
-`(nat.prime.dvd_factorial hp).1` et `(nat.prime.dvd_factorial hp).2` pour utiliser les deux
-implications.
--/
-
-example : ¬(∃ (n : ℕ), (n + 1).prime ∧ (n + 1) ∣ n! ) :=
-begin
-  /- Supposons que l'énoncé soit faux. On fait donc l'hypothèse, appelé `h`, qui un tel `n`
-    existe, et on doit arriver à une contradiction, c'est-à-dire à démontrer `false`. Remarquez ls
-    tactique `by_contradiction`. -/
-  by_contradiction h,
-  /- `h` est l'hypothèse qu'il existe `n` tel que une certaine propriété. La tactique `obtain`
-    choisi un tel `n`. Ici la propriété est formée des deux parties, on appelle `hprime` le fait que
-    `n + 1` est premier et `hdvd` le fait que `n + 1` divise `n!`.
-  -/
-  obtain ⟨n, hprime, hdvd⟩ := h,
-  /- On introduit une affirmation intermédiaire, le fait que `n + 1 ≤ n`, ce qui suit à cause de
-    `nat.prime.dvd_factorial` et c'est une contradiction). Remarquez les tactiques `have` pour faire
-    une affirmation intermédiaire et `apply` pour "appliquer" une implication. -/
-  have hn : n + 1 ≤ n,
-  { apply (nat.prime.dvd_factorial hprime).1,
-    exact hdvd },
-  /- Il y a maintenant une inégalité qui est "évidemment" fausse. Bien sûr, il faut faire la
-    démonstration de ça... mais la tactique `linarith` nous permet de conclure. -/
-    linarith,
-end
-
-/-
-Et voici des exemples de la feuille de TD d'arithmétique.
--/
-
-example (n : ℕ) : gcd 13 (7 + 13 * n) = 1 :=
-begin
-  have h : gcd 13 (7 + 13 * n) = gcd 13 7,
-  { /- Le théorème `gcd_add_mul_left_right` peut paraître impossible à trouver, mais remarquez la
-      logique de son nom. On va voir ci-dessous des utils pour nous aider à deviner les noms des
-      résultats dans mathlib.-/
-    exact gcd_add_mul_left_right 13 7 n},
-  rw [h],
-  norm_num, -- `norm_num` suffit même sans la ligne précédente
-end
-
-example (a b : ℤ) : 7 ∣ 10 * a + b ↔ 7 ∣ a - 2 * b :=
-begin
-  split,
-  { intro H,
+example (a b : ℤ) : 7 ∣ 10 * a + b ↔ 7 ∣ a - 2 * b := by
+  constructor
+  /- Pour séparer les deux buts,  on utilise une syntaxe inspirée de Python :
+    chacun des deux buts est dans un bloc initié par un point centré (`·`, entré
+    avec `\.`). -/
+  · intro H
     /- La notation `a ∣ b` est *définie* comme `∃ c, b = a * c`. "Divise" est donc en réalité un
       énonce d'existence, et on peut utiliser `obtain` directement sur `H`. -/
-    obtain ⟨k, hk⟩ := H,
-    /- Pour montrer une relation de divisibilité, qui est en réalité un énonce d'existence,
-      on peut utiliser `use`. -/
-    use -2 * k + 3 * a,
-    rw [mul_add, mul_comm (-2) k, ← mul_assoc, ← hk],
-    /- Ici il a fallu dire à Lean comment utiliser `hk`, il ne suffit pas d'utiliser `ring`
-      directement. On dispose des tactiques plus puissantes, par exemple `polyrith` vous donne
-      la réponse immédiatement (en appellent la tactique `linear_combination`). -/
-    ring, },
-  {
+    obtain ⟨k, hk⟩ := H
+    /- Pour montrer une relation de divisibilité,
+      qui est en réalité un énonce d'existence, on peut utiliser `use`. -/
+    use -2 * k + 3 * a
+    rw [mul_add, mul_comm (-2) k, ← mul_assoc, ← hk]
+    /- Ici il a fallu dire à Lean comment utiliser `hk`,
+      il ne suffit pas d'utiliser `ring` directement.
+      On dispose de tactiques plus puissantes, par exemple `polyrith` vous
+      donnerait la réponse immédiatement (en appellant la tactique
+      `linear_combination`). -/
+    ring
+  · -- Terminez la démonstration
     sorry
-  }
-end
+  done
 
-example (n : ℕ) : 3 ∣ (n ^ 3 + 5 * n) :=
-begin
-  induction n with n hrec,
-  { norm_num, },
-  { have H : (n + 1) ^ 3 + 5 * (n + 1) = (n ^ 3 + 5 * n) + 3 * (n ^ 2 + n + 2) := by ring,
-    rw [H],
-    /- On doit montrer que `3` divise une somme. Le théorème `dvd_add` dit que si un nombre divise
-      les deux facteurs alors il divise la somme, on peut donc l'appliquer pour obtenir deux
+example (n : ℕ) : 3 ∣ (n ^ 3 + 5 * n) := by
+  induction n with
+  | zero => norm_num
+  | succ n hrec =>
+    have H : (n + 1) ^ 3 + 5 * (n + 1) = (n ^ 3 + 5 * n) + 3 * (n ^ 2 + n + 2) := by ring
+    rw [H]
+    /- On doit montrer que `3` divise une somme.
+      Le théorème `dvd_add` dit que si un nombre divise les deux facteurs,
+      alors il divise leur somme ; on peut donc l'appliquer pour obtenir deux
       objectifs. -/
-    apply dvd_add,
-    { /- Le premier objectif est exactement notre hypthèse de récurrence. -/
-      exact hrec, },
-    { /- Le deuxième est le fait que `3` divise le produit de `3` et un autre nombre, c'est qui
-        est évident. Dans ce cas, essayez la tactique `simp` (qui essaie de simplifier l'objectif)
-        est une bonne idée (ici est même suffisante). Essayez d'être plus explicit avec la tactique
-        `use`. -/
-      simp, } }
-end
+    apply dvd_add
+    · /- Le premier objectif est exactement notre hypthèse de récurrence. -/
+      exact hrec
+    · /- Le deuxième est le fait que `3` divise le produit de `3`
+       	et un autre nombre, c'est qui est évident. Dans ce cas,
+       	essayez la tactique `simp` (qui essaie de simplifier
+       	l'objectif) est une bonne idée (ici est même suffisante).
+       	Essayez d'être plus explicit avec la tactique `use`. -/
+      simp
+    done
 
-example (n : ℤ) : (n + 1) ∣ n ^ 13 + 1 :=
-begin
+example (n : ℤ) : (n + 1) ∣ n ^ 13 + 1 := by
   sorry
-end
+  done
 
-/-
-D'autres exemples du cours RM1-/
+/- D'autres exemples du cours RM1 -/
 
-lemma even_add_one (n : ℕ) : even (n * (n + 1)) :=
-begin
-  /- Le théorème `even_or_odd` dit qu'un nombre est pair ou impair. La tactique `cases` permet de
-    séparer les deux cas, en donnant un nom aux hypthèses "`n` est pair" et "`n` est impair". -/
-  cases (even_or_odd n) with heven hodd,
-  { /- On sait que `n` est pair et on peut imaginer que le fait que le produit d'un nombre pair avec
-      n'importe quel nombre est pair soit déjà dans la bibliothéque. `library_search` cherche dans
-      mathlib et en effet il trouve le résultat `even.mul_right`. -/
-    exact even.mul_right heven (n + 1), },
-  { have hsucc : even (n + 1),
-    { /- `odd_iff_not_even` dit qu'un nombre est impaire si et seulement si il n'est pas pair.
-        Ici, `n` est pair s'il existe `k` tel que `n = 2 * k` et il est impair s'il existe `k`
-        tel que `n = 2 * k + 1`. Comment démontrer (sur papier !) `odd_iff_not_even`? -/
-      rw [even_add_one, ← odd_iff_not_even],
-      exact hodd, },
-    exact even.mul_left hsucc n, }
-end
+/- `Nat.odd_iff_not_even` dit qu'un nombre est impair si et seulement si
+  il n'est pas pair.
+  Ici, `n` est pair s'il existe `k` tel que `n = 2 * k` et il est impair
+  s'il existe `k` tel que `n = 2 * k + 1`.
+  Comment démontrer (sur papier !) `odd_iff_not_even` ? -/
 
-example (n : ℤ) (h : even (n ^ 3)) : even n :=
-begin
-  by_contradiction hcontra,
-  rw [← int.odd_iff_not_even] at hcontra,
-  have H : odd (n ^ 3),
-  { /- Encore `library_search` -/
-    exact odd.pow hcontra, },
-  rw [int.odd_iff_not_even] at H,
-  contradiction,
-end
+#check odd_iff_not_even
 
-example (n : ℕ) : 2 ∣ n * (n + 1) * (n + 2) :=
-begin
-  rw [← even_iff_two_dvd],
-  /- On doit montrer que `n * (n + 1) * (n + 2)`. Il suffit donc de montrer que `n * (n + 1)`
-      l'est. La tactique `suffice H : even (n * (n + 1))` va créer l'affirmation
-      `H : even (n * (n + 1))` et il vous demande de terminer votre démonstration. Après, il faudra
-      bien sûr démontrer `H`. C'est totalement analogue à `have`, mais l'ordre des démonstrations
-      à faire est inversé, et elle est parfois plus pratique.  -/
-  suffices H : even (n * (n + 1)),
-  { exact even.mul_right H (n + 2), },
-  exact even_add_one n,
-end
+-- `n + 1` est  pair si et seulement si `n` n'est pas pair.
+#check even_add_one
 
-example (n : ℕ) : 3 ∣ n * (n + 1) * (n + 2) :=
-begin
-  induction n with n hrec,
-  { norm_num, },
-  { rw [succ_eq_add_one],
+
+lemma even_mul_add_one (n : ℕ) : Even (n * (n + 1)) := by
+  /- Le théorème `even_or_odd` dit qu'un nombre est pair ou impair.
+    La tactique `cases` permet de séparer les deux cas,
+    en donnant un nom aux hypthèses « `n` est pair » et « `n` est impair ». -/
+  cases (even_or_odd n) with
+  | inl heven =>
+   /- On sait que `n` est pair, et `Even.mul_right` dit que le produit
+    d'un nombre pair par n'importe quel nombre entier est pair.  -/
+    exact Even.mul_right heven (n + 1)
+  | inr hodd =>
+    have hsucc : Even (n + 1) := by
+     rw [even_add_one, ← odd_iff_not_even]
+     exact hodd
+    exact Even.mul_left hsucc n
+  done
+
+example (n : ℤ) (h : Even (n ^ 3)) : Even n := by
+  by_contra hcontra
+  rw [← Int.odd_iff_not_even] at hcontra
+  have H : Odd (n ^ 3)
+  { -- `exact?` permet de trouver cette fonction
+    exact Odd.pow hcontra }
+  rw [Int.odd_iff_not_even] at H
+  contradiction
+  done
+
+example (n : ℕ) : Even (n * (n + 1) * (n + 2)) := by
+  /- On doit montrer que `n * (n + 1) * (n + 2)` est pair.
+    Il suffit donc de montrer que `n * (n + 1)` l'est.
+    La tactique `suffices H : Even (n * (n + 1))` va créer l'affirmation
+      `H : Even (n * (n + 1))`
+    et il vous demande de terminer votre démonstration.
+    Après, il faudra bien sûr démontrer `H`.
+    C'est totalement analogue à `have`, mais l'ordre des démonstrations
+    à faire est inversé, et c'est parfois plus pratique.  -/
+  suffices H : Even (n * (n + 1))
+  exact Even.mul_right H (n + 2)
+  -- On utilise le lemme `even_mul_add_one` démontré plus haut !
+  exact even_mul_add_one n
+  done
+
+example (n : ℕ) : 3 ∣ n * (n + 1) * (n + 2) := by
+  induction n with
+  | zero => norm_num
+  | succ n hrec =>
+    rw [succ_eq_add_one]
     have H : (n + 1) * (n + 2) * (n + 3) =
-      n * (n + 1) * (n + 2) + 3 * (n + 1) * (n + 2) := by ring,
-    rw [H],
-    apply dvd_add,
-    { exact hrec, },
-    { rw [mul_assoc], --Vous voyez pourqui il faut cette ligne ?
-      /- La ligne suivante est étrange, mais elle a étée trouvé par `library_search` et fonction. -/
-      exact dvd.intro ((n + 1) * (n + 2)) rfl, } }
-end
+      n * (n + 1) * (n + 2) + 3 * (n + 1) * (n + 2) := by ring
+    rw [H]
+    apply dvd_add
+    · exact hrec
+    · rw [mul_assoc]
+      -- Voyez-vous pourqui il fallait cette ligne ?
+      /- `Nat.dvd_mul_right` dit qu'un nombre de la forme `a * b` est divisible
+        par `a`. Elle a été trouvée par `exact?`. -/
+      apply Nat.dvd_mul_right
+    done
