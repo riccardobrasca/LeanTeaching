@@ -1,5 +1,5 @@
 {
-  "name": "LeanInRome dev container",
+  "name": "LeanTeaching dev container",
 
   "build": {
     "dockerfile": "Dockerfile"
