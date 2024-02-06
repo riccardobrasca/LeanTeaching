@@ -2,9 +2,12 @@ import Mathlib.Tactic
 import Mathlib.Data.Nat.Parity
 
 /-
-Rappelons que en Lean chaque "chose" a son propre type, par exemple `0` est de type `ℕ`.
 
-Les énoncés mathématiques (vrais ou faux) ont type `Prop`.
+# TD 3 : Propositions
+
+Rappelons qu'en Lean chaque « chose » a son propre type, par exemple `0` est de type `ℕ`.
+
+Les énoncés mathématiques (vrais ou faux) ont type `Prop` (abréviation de « proposition »).
 
 -/
 
@@ -18,7 +21,7 @@ Les énoncés mathématiques (vrais ou faux) ont type `Prop`.
 #check ∀ (x y z n : ℕ), n ≥ 3 ∧ x ^ n + y ^ n = z ^ n → x * y * z = 0
 
 /-
-`Prop` est donc "l'ensemble" ("ensemble" est utilisé ici informellement) des énoncés mathématiques.
+`Prop` est donc « l'ensemble » (« ensemble » est utilisé ici informellement) des énoncés mathématiques.
 En tant que mathématiciens on est intéressés à chercher des démonstrations. Une démonstration doit
 elle même avoir son propre type! Par convention, le type d'un démonstration est l'énoncé dont elle
 est une démonstration. Ça peut paraître très bizarre, mais c'est en réalité assez simple : si `P`
@@ -35,16 +38,17 @@ lemma add_one_odd_of_even (n : ℕ) (h : Even n) : Odd (n + 1) := by
 #check add_one_odd_of_even
 
 /-
-Il faut penser à `add_one_odd_of_even` comme la démonstration de l'énoncé "si `n` est un entier
-naturel et si `n` est pair alors `n + 1` est impair". Remarquez que `add_one_odd_of_even` est la
+Il faut penser à `add_one_odd_of_even` comme la démonstration de l'énoncé :
+  « si `n` est un entier naturel et si `n` est pair alors `n + 1` est impair. »
+Remarquez que `add_one_odd_of_even` est la
 *démonstration*, non pas l'énoncé lui même. Il s'agit d'un objet plus intéressant, il nous dit que
 l'énoncé en question est vrai.
 
 Remarquez aussi que `(h : Even n)` signifie littéralement que `h` est un démonstration du fait que
-`n` est pair, mais on suppose cette démonstration déjà donné, donc en pratique on suppose seulement
-qui `n` est pair.
+`n` est pair, mais on suppose cette démonstration déjà donnée, donc en pratique on suppose seulement
+que `n` est pair.
 
-Finalement, remarquez que pour l'instant Lean ne sait rien autour de "vrai" et "faux", il y a juste
+Finalement, remarquez que pour l'instant Lean ne sait rien autour de « vrai » et « faux », il y a juste
 des énoncés avec une démonstration (qui nous allons interpréter comme des énoncés vrais).
 
 Si `(P Q : Prop)` sont des énoncés, on peut fabriquer des nouveau énoncés comme d'habitude
@@ -52,35 +56,35 @@ Si `(P Q : Prop)` sont des énoncés, on peut fabriquer des nouveau énoncés co
 
 variable (P Q : Prop)
 
--- L'énoncé "`P` et `Q`"
+-- L'énoncé « `P` et `Q` »
 #check P ∧ Q
 
--- L'énoncé "`P` ou `Q`"
+-- L'énoncé « `P` ou `Q` »
 #check P ∨ Q
 
--- L'énoncé "`P` implique `Q`"
+-- L'énoncé « »`P` implique `Q` »
 #check P → Q
 
--- L'énoncé "`P` si et seulement si `Q`"
+-- L'énoncé « `P` si et seulement si `Q` »
 #check P ↔ Q
 
--- L'énoncé "non `P`"
+-- L'énoncé « non `P` »
 #check ¬P
 
 /-
-Regardons de plus près l'énoncé `P → Q` "`P` implique `Q`". Cela signifie (informellement) que si
-`P` est vrai alors `Q` est vrai. On a dit que "`P` est vrai" s'écrit en Lean en disant "il y a une
-démonstration de `P`", ou plus précisément en supposant que `(h : P)` est de type `P`. Démontrer
+Regardons de plus près l'énoncé `P → Q`, « `P` implique `Q` ». Cela signifie (informellement) que si
+`P` est vrai alors `Q` est vrai. On a dit que « `P` est vrai » s'écrivait en Lean en disant « il y a une
+démonstration de `P` », ou plus précisément en supposant que `(h : P)` est de type `P`, c'est-à-dire que « `h` est
+une démonstration de `P` ». Démontrer
 `P → Q` veut dire construire un terme `f` de type `P → Q`: cette notation est la même que pour
 construire une fonction `f : P → Q` de `P` vers `Q` (en oubliant qu'il s'agit ici d'énoncés). Une
 telle fonction prend un `h` de type `P` et doit renvoyer quelque chose de type `Q`, noté `f h`. Donc
-elle prend une démonstration que `P` est vrai et renvoie une démonstration de `Q`, donc elle est une démonstration de l'énoncé "si `P` alors `Q`".
+elle prend une démonstration que `P` est vrai et renvoie une démonstration de `Q`, donc elle est une démonstration de l'énoncé « si `P` alors `Q` ».
 
 On voit donc que utiliser la même notation pour une fonction ou une implication est très pratique
-si on pense que un énoncé est "l'ensemble de ses démonstration". Il y a en réalité une théorie
+si on pense que un énoncé est « l'ensemble de ses démonstrations ». Il y a en réalité une théorie
 très intéressante derrière ce que peut paraître juste une notation pratique (même si un peu
-bizarre) que malheureusement on n'a pas le temps d'aborder (Correspondance de Curry-Howard pour les
-curieux).
+bizarre) que malheureusement on n'a pas le temps d'aborder (pour les curieux⬝ses, il s'agit de la *correspondance de Curry-Howard*, voir https://fr.wikipedia.org/wiki/Correspondance_de_Curry-Howard).
 -/
 
 example (p : P) : P := by
