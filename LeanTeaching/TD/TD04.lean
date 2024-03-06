@@ -21,11 +21,7 @@ en licence.
 Une suite u est une fonction de ℕ dans ℝ, c'est-à-dire, pour Lean,
 u : ℕ → ℝ
 
-Une suite u tend vers un nombre
-In this file we manipulate the elementary definition of limits of
-sequences of real numbers.
-
-Voici la définition, si u : ℕ → ℝ est une suite de nombres réels
+Voici la définition de limite. Si u : ℕ → ℝ est une suite de nombres réels
 et l : ℝ un nombre réel de « u tend vers l » :
 
 -- Définition de « u tend vers l »
