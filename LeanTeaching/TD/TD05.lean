@@ -56,7 +56,7 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   exact ⟨h xsu.1, xsu.2⟩
   done
 
-/- La tactique rintro/rintros permet à Lean de construire directement `xs` et `xu` à partir du ∧ -/
+/- La tactique intro permet à Lean de construire directement `xs` et `xu` à partir du ∧ -/
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   simp only [subset_def, mem_inter_iff] at *
   rintro x ⟨xs, xu⟩
