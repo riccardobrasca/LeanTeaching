@@ -6,7 +6,7 @@ import Mathlib.Tactic
 
 /- **Démontrer avec un ordinateur**
 Riccardo Brasca, Antoine Chambert-Loir
-Séance 5 : Fonctions
+Séance 6 : Fonctions
 (Mathematics in Lean, chapitre 4)-/
 
 /- # Fonctions
@@ -79,8 +79,9 @@ example : f '' s \ f '' t ⊆ f '' (s \ t) := by
   sorry
   done
 
-/- Notez qu'on a d'abord traité l'image réciproque,
-avant l'image, et que les preuves sont un peu plus simples.Pouvez-vous expliquer en quoi ? -/
+/- Notez qu'on a d'abord traité l'image réciproque avant l'image,
+  et que les preuves sont un peu plus simples.
+  Pouvez-vous expliquer en quoi ? -/
 
 -- ## Relations entre image et image réciproque
 example : s ⊆ f ⁻¹' (f '' s) := by
@@ -115,9 +116,17 @@ example : s ∪ f ⁻¹' u ⊆ f ⁻¹' (f '' s ∪ u) := by
   done
 
 -- ## Injectivité, surjectivité, bijectivité
-/- Les prédicats `injective`, `surjective`, `bijective` disent respectivement qu'une fonction est injective, surjective, bijective… -/
+/- Les prédicats `Injective`, `Surjective`, `Bijective` disent respectivement qu'une fonction est injective, surjective, bijective… -/
+
+/- Une fonction `f : α → β` est *injective* si pour tous `a₁ a₂ : α`,
+  l'égalité `f a₁ = f a₂` entraîne `a₁ = a₂`. -/
 #print Injective
+
+/- Une fonction `f : α → β` est *surjective* si pour tout `b : β`,
+  il existe `a : α` tel que `f a = b`. -/
 #print Surjective
+
+/- Une fonction est *bijective* si elle est à la fois injective et surjective. -/
 #print Bijective
 
 example (h : Injective f) : f ⁻¹' (f '' s) ⊆ s := by
@@ -134,7 +143,7 @@ example (h : Injective f) : f '' s ∩ f '' t ⊆ f '' (s ∩ t) := by
 
 -- ## Unions, intersections et images, images réciproques
 
-variables {I : Type*} (A : I → Set α) (B : I → Set β)
+variable {I : Type*} (A : I → Set α) (B : I → Set β)
 
 /- Utilisez `ext` et `intro`, avant d'appeler `simp `.-/
 example : f '' (⋃ i, A i) = ⋃ i, f '' A i := by
@@ -158,8 +167,8 @@ example : f '' (⋂ i, A i) ⊆ ⋂ i, f '' A i := by
   · exact fxeq
   done
 
-/- Dans cet exemple, on a besoin de `i : I` pour
-garantir que `I` n'est pas vide. Est-ce que vous voyez pourquoi ? -/
+/- Dans cet exemple, on a besoin de `i : I` pour garantir que `I` n'est pas vide.
+  Est-ce que vous voyez pourquoi ? -/
 example (i : I) (injf : Injective f) :
   (⋂ i, f '' A i) ⊆ f '' (⋂ i, A i) := by
   intro y
@@ -209,9 +218,9 @@ open Classical
 
 /- Étant donnée une fonction `f : α → β`,
 on construit une fonction `inverse f : β → α` comme suit:
-si `y : β`, et s'il existe `x : α` tel que `f x = y`, alors l'image de `y` est un de ces éléments,
-donné par le choix `Classical.choose` ; sinon, on prend un élément par défaut de `α`
-— donné par l'instance `Inhabited α` -/
+si `y : β`, et s'il existe `x : α` tel que `f x = y`,
+alors l'image de `y` est un de ces éléments, donné par le choix `Classical.choose` ;
+sinon, on prend un élément par défaut de `α`, donné par l'instance `Inhabited α` -/
 
 def inverse (f : α → β) : β → α :=
 fun y : β ↦ if h : ∃ x, f x = y then Classical.choose h else default
@@ -240,6 +249,7 @@ end
 
 
 /- ## Le théorème de Cantor
+
 Le théorème de Cantor affirme que pour tout type `α`,
 il n'existe pas de surjection `α → Set α`. La méthode utilisée par Georg Cantor à cette occasion
 porte le nom d'*argument diagonal* et est reprise dans de nombreuses autres démonstrations.
@@ -289,7 +299,7 @@ end Cantor
 open Set
 open Function
 
-variables {α β : Type*} [Nonempty β]
+variable {α β : Type*} [Nonempty β]
 
 noncomputable section
 open Classical
@@ -410,7 +420,7 @@ theorem sb_surjective (hg : Injective g) :
 
 end Schroder_Bernstein
 
-/- La preuve finale est courte, on utilise que `bijective h` se récrit en `injective h ∧ surjective h`. -/
+/- La preuve finale est courte, on utilise que `Bijective h` se récrit en `Injective h ∧ Surjective h`. -/
 theorem schroeder_bernstein {f : α → β} {g : β → α}
     (hf: Injective f) (hg : Injective g) :
   ∃ h : α → β, Bijective h :=
