@@ -5,21 +5,23 @@ import Mathlib.Tactic
 
 Le langage des ensembles, des relations, des fonctions est aujourd'hui au cœur de toutes les branches des mathématiques. Comme les fonctions et les relations peuvent être décrites comme à l'aide d'ensembles (via le graphe d'une fonction, ou d'une relation), une théorie *axiomatique* des ensembles peut servir de fondation aux mathématiques, et c'est d'ailleurs la théorie proposée par Cantor, Zermelo, Fraenkel… au début du 20e siècle qui est couramment adoptée de nos jours.
 
-Ce ne sont pas les seules fondations possibles. Lean est fondé sur la notion de *type* et son langage permet de construire de nombreux autres types, notamment des types de fonctions entre types.
-Toute expression dans Lean a un type: ce sont des nombres entiers naturels, des nombres réels, des fonctions des nombres réels dans les nombres réels, des groupes, des espaces vectoriels, etc. Certaine expressions *sont* des types, ce qui signifie que leur type est `Type`. Lean et la librairie mathlib proposent des outils pour définir des nouveaux types et des outils pour définir des objets de ces types.
+Toute expression mathématique a un type: ce peuvent être des nombres entiers naturels, des nombres réels, des fonctions des nombres réels dans les nombres réels, des groupes, des espaces vectoriels, etc. Cependant, la théorie des ensembles ne tient pas compte de ce phénomène : tout y est ensemble, et comme on a le droit de se demander si deux ensembles sont égaux, on peut se demander si le nombre réel π est un espace vectoriel. Cela a un sens formel, mais aucun sens mathématique.
 
-Conceptuellement, on peut imaginer qu'un type est une collection d'objets. Il y a quelques avantages à exiger que chaque objet ait un type donné. Par exemple, cela permet de surcharger une notation comme `+`, et permet que l'entrée soit moins verbeuse, dès lors que Lean peut déduire beaucoup d'information du type d'un objet.
-Le système de typage permet aussi à Lean de détecter des erreurs lorsqu'on applique une fonction à un mauvais nombre d'arguments, ou à des arguments du mauvais type.
+Mais la théorie des ensembles n'est pas la seule fondation possible pour mes mathématiques. Lean est fondé sur la notion de *type* et son langage permet de construire de nombreux types, notamment des types de fonctions entre types. Avec sa librairie *mathlib*, Lean connaît ainsi le type des entiers naturels, celui des nombres réels, celui des groupes, des espaces vectoriels, etc. Certaine expressions *sont* des types, ce qui signifie que leur type est `Type`. Lean et la librairie mathlib proposent des outils pour définir des nouveaux types et des outils pour définir des objets de ces types.
 
-La librairie de Lean définit des notions ensemblistes élémentaires. Pour Lean, au contraire de ce qui est possible en théorie des ensembles,
-les éléments d'un ensemble sont toujours d'un type donné, comme les entiers naturels, ou les fonctions des nombres réels dans les nombres réels. D'une certaine manière, les ensembles de Lean doivent plutôt être considérés comme des sous-ensembles d'un type.
+Conceptuellement, on peut imaginer qu'un type est une collection d'objets. Il y a quelques avantages à exiger que chaque objet ait un type donné. Par exemple, cela permet d'utiliser la même notation (par exemple `+`) dans des contextes différents, et permet que le code tapé soit plus léger, dès lors que Lean peut déduire beaucoup d'information du type d'un objet.
+Le système de typage permet aussi à Lean de détecter des erreurs lorsqu'on applique une fonction à un mauvais nombre d'arguments, ou à des arguments du mauvais type. Il n'est ainsi pas possible d'écrire qu'un nombre réel est égal à une fonction, et il n'est même pas possible d'écrire qu'un nombre réel est égal à un nombre entier!
+
+La librairie de Lean définit des notions ensemblistes élémentaires que nous allons explorer dans ce TP.
+
+Pour Lean, au contraire de ce qui est possible en théorie des ensembles, les éléments d'un ensemble sont toujours d'un type donné, comme les entiers naturels, ou les fonctions des nombres réels dans les nombres réels. D'une certaine manière, les ensembles de Lean doivent plutôt être considérés comme des sous-ensembles d'un type.
 
 -/
 
 /- # Ensembles
 
-Si `α`est un type, le type `Set α`consiste
-en les ensembles d'éléments de `α`. Sur ces types, on dispose des opérations ensemblistes et relations usuelles. Par exemple, si `s : Set α` et `t : Set α`, alors `s ⊆ t`dit que `s`est une partie de `t` (noter la graphie particulière), `s ∩ t`est l'intersection de `s`et `t`, `s ∪ t` est leur réunion.
+Si `α`est un type, le type `Set α`consiste en les ensembles d'éléments de `α`.
+Sur ces types, on dispose des opérations ensemblistes et relations usuelles. Par exemple, si `s : Set α` et `t : Set α`, alors `s ⊆ t`dit que `s`est une partie de `t` (noter la graphie particulière), `s ∩ t`est l'intersection de `s`et `t`, `s ∪ t` est leur réunion.
 La librairie définit également l'ensemble `univ` (« univers ») qui consiste en tous les éléments de type `α`, l'ensemble vide `∅`.
 Si `x : α` et `s : Set α`, l'expression `x ∈ s` (de type `Prop`) dit que `x`est un membre de `s`; le nom des théorèmes de mathlib qui mentionnent cette notion d'appartenance contiennent souvent le mot `mem`. L'expression `x ∉ s` est une abréviation de `¬ x ∈ s`: `x` n'est pas membre de `s`.
 
@@ -49,8 +51,8 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   · exact hx.right
   done
 
-/- Cette variante de la preuve montre
-d'autres syntaxes possibles : ⟨…,…⟩ combine deux énoncés pour construire leur ∧ -/
+/- Cette variante de la preuve montre d'autres syntaxes possibles :
+  ⟨…,…⟩ combine deux énoncés pour construire leur ∧ -/
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   intro x xsu
   exact ⟨h xsu.1, xsu.2⟩
@@ -64,16 +66,12 @@ example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   done
 
 /- Ce qui s'est passé dans les exemples précédents porte le nom de *réduction définitionelle* : Lean parvient à donner sens aux diverses tactiques employées en développant les définitions des objects considérés. -/
-/- Encore une version : on utilise la syntaxe λ x, … pour définir une fonction -/
+/- Encore une version : on utilise la syntaxe `fun x ↦ …` pour définir une fonction -/
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
   exact fun x ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
   done
 
 /- Une dernière version, dans laquelle on donne un nom au résultat prouvé -/
-theorem foo (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
-fun _ ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
-
-/- Pourtant, si on remplace `theorem foo` par `example`, ça ne marche pas, ce qui indique que les mécanismes internes de Lean sont parfois subtils et que l'on ne peut pas toujours se reposer sur eux.  -/
 example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u :=
 fun _ ⟨xs, xu⟩ ↦ ⟨h xs, xu⟩
 
@@ -109,7 +107,7 @@ example : (s ∩ t) ∪ (s ∩ u) ⊆ s ∩ (t ∪ u) := by
   sorry
   done
 
-/- La notation `\`signifie la différence ensembliste -/
+/- La notation `\`signifie la différence ensembliste. -/
 example (x : α) : x ∈ s \ t ↔ x ∈ s ∧ x ∉ t := mem_diff x
 
 /- Exemple d'inclusion : on utilise `rcases` pour développer le `∧`et raisonner sur les deux cas du `∨`. -/
@@ -174,7 +172,7 @@ example : s ∩ t = t ∩ s := by
   done
 
 /- Version concise et illisible du résultat précédent
-La syntaxe `$` ouvre une parenthèse qui se refermera automatiquement
+La syntaxe `<|` ouvre une parenthèse qui se refermera automatiquement
 au premier moment que Lean jugera possible : ici, à la fin de la ligne
 Parfois, elle simplifie la lecture/écriture des expressions -/
 example : s ∩ t = t ∩ s :=
