@@ -237,7 +237,17 @@ open Function
 
 /- Prouvez que si `f` est injective, alors `inverse f` est inverse à gauche de `f` : (inverse f) ∘ f = id -/
 example : Injective f ↔ LeftInverse (inverse f) f  := by
-  sorry
+  constructor
+  · intro hf
+    dsimp [LeftInverse]
+    intro x
+    apply hf
+    apply inverse_spec
+    use x
+  · intro hf
+    intro a b hab
+    dsimp [LeftInverse] at hf
+    rw [← hf a, ← hf b, hab]
   done
 
 /- Prouvez que si `f` est surjective, alors `inverse f` est inverse à droite de `f` : f ∘ (inverse f) = id -/
