@@ -15,7 +15,7 @@ Vous pouvez utiliser CodeSpace, en cliquant sur le lien suivant :
 
 [CodeSpace](https://codespaces.new/riccardobrasca/LeanTeaching)
 
-*Assurez-vous de selectioner "4 cores" comme dernière option* Si la page qui s'ouvre ne fait rien, essayez de changer de navigateur (Firefox marche très bien).
+*Assurez-vous de selectioner "4 cores" comme dernière option*. Si la page qui s'ouvre ne fait rien, essayez de changer de navigateur (Firefox marche très bien).
 
 Une fois que vous avez terminé de travailler su un fichier (c'est-à-dire vous avez répondu aux questions et vous avez terminé les preuves démandées) **sauvegardez immédiatement sur disque dur** votre travail, fermez la fenêtre et passez au fichier suivant (ne gardez pas plusieurs fenêtres ouvertes en même temps, sauvegardez immédiatement sur disque dur). _**Faites très attention : si vous fermez la fenêtre sans avoir sauvegardé vous perdez votre travail.**_
 
