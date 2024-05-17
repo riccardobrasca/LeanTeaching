@@ -4,7 +4,7 @@ import Mathlib.Tactic.Ring
 
  ### Questions
 
-1. Expliquez les fonctions `add_assoc : ℤ → ℤ → ℤ → Prop` et `mul_comm : ℤ → ℤ → Prop`.
+1. Expliquez les fonctions `mul_add : ℤ → ℤ → ℤ → Prop` et `add_comm : ℤ → ℤ → Prop`.
 
 2. Démontrer (mathématiquement) l'exemple `N2` ci-dessous.
 

@@ -10,7 +10,7 @@ On se donne des types `X`, `Y`, `Z` et des fonctions `f : X → Y`, `g : Y → Z
 
 1. Donner les définitions que `f` est injective, surjective.
 
-2. Démontrer que si `f` et `g` sont injectives, alors `g ∘ f` est injective.
+2. Démontrer que si `f` et `g` sont surjectives, alors `g ∘ f` est surjective.
 
 3. Donner le code Lean d'un `example` qui prouverait la question précédente.
 -/
@@ -20,20 +20,20 @@ Pour les exemples suivants, il n'est pas permis d'utiliser la tactique  `exact?`
 (ni donc le résultat de mathlib qui démontre exactement le lemme demandé). -/
 
 /-- Le `lemma` suivant est obligatoire. -/
-theorem F1 : Surjective (fun (n : ℤ) ↦ n - 3) := by
+theorem F1 : Surjective (fun (n : ℤ) ↦ n + 5) := by
   sorry
   done
 
 /-- Choisissez *UN* entre les deux `lemma` suivants. -/
 
-theorem F2 (X Y Z : Type) (f : X → Y) (g : Y → Z) (hinj : Injective (g ∘ f)) :
-    Injective f := by
+theorem F2 (X Y Z : Type) (f : X → Y) (g : Y → Z) (hinj : Surjective (g ∘ f)) :
+    Surjective g := by
   sorry
   done
 
 def even_fun (f : ℤ → ℤ) := ∀ x, f (-x) = f x
 
-theorem F3 (f g : ℤ → ℤ) : even_fun f → even_fun g →  even_fun (f + g) := by
+theorem F3 (f g : ℤ → ℤ) : even_fun f → even_fun g →  even_fun (f - g) := by
   sorry
   done
 

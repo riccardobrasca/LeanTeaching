@@ -27,11 +27,11 @@ theorem L1 (P Q R : Prop) (h1 : Q → P) (h2 : R → P) (h3 : Q ∨ R) : P := by
   done
 
 /- Choisissez *UN* entre les deux `theorem` suivants. -/
-theorem L2 (P Q : Prop) (h : P ↔ ¬ Q) : (P → ¬ Q) ∧ (¬P → Q) := by
+theorem L2 (P Q : Prop) (h : ¬ Q ↔ P) : (¬P → Q) ∧ (P → ¬ Q) := by
   sorry
   done
 
-theorem L3 (P Q R : Prop) (h : P ∨ Q ∨ R → ¬(P ∧ Q ∧ R)) : (P ∨ Q) ∨ R → ¬((P ∧ Q) ∧ R) := by
+theorem L3 (P Q R : Prop) (h : P ∨ R ∨ Q → ¬(R ∧ Q ∧ P)) : R ∨ (Q ∨ P) → ¬((P ∧ Q) ∧ R) := by
   sorry
   done
 
