@@ -19,4 +19,4 @@ Vous pouvez utiliser CodeSpace, en cliquant sur le lien suivant :
 
 Une fois que vous avez terminé de travailler su un fichier (c'est-à-dire vous avez répondu aux questions et vous avez terminé les preuves démandées) **sauvegardez immédiatement sur disque dur** votre travail, fermez la fenêtre et passez au fichier suivant (ne gardez pas plusieurs fenêtres ouvertes en même temps, sauvegardez immédiatement sur disque dur). _**Faites très attention : si vous fermez la fenêtre sans avoir sauvegardé vous perdez votre travail.**_
 
-Une fois que vous avez terminé, allez sur [Moodle](https://moodle.u-paris.fr/mod/assign/view.php?id=1136692) et déposer les *six fichiers*. Assurez-vous de ne pas en oublier, et de déposer la version modifiée par vous (et pas l'originale sans réponses !).
+Une fois que vous avez terminé, allez sur [Moodle](https://moodle.u-paris.fr/mod/assign/view.php?id=1136692) et déposer les *quatre fichiers*. Assurez-vous de ne pas en oublier, et de déposer la version modifiée par vous (et pas l'originale sans réponses !).
